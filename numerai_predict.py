@@ -15,16 +15,26 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import BaggingClassifier
 
 from numerapi import NumerAPI
+import zipfile
+
+data_archive = NumerAPI().download_current_dataset(dest_path='./tmp',unzip=False)
+
+with zipfile.ZipFile(data_archive,"r") as zip_ref:
+    zip_ref.extractall("./tmp/numerai_datasets")
 
 competitions = NumerAPI().get_tournaments()
 
-NumerAPI().download_current_dataset(dest_path='~/numerai_datasets')
+comp_names = list()
+
+for comp in competitions: comp_names.append(comp["name"])
+
+print(comp_names)
 
 print("# Loading data...")
 # The training data is used to train your model how to predict the targets.
-train = pd.read_csv('~/numerai_datasets/numerai_training_data.csv', header=0)
+train = pd.read_csv('./tmp/numerai_datasets/numerai_training_data.csv', header=0)
 # The tournament data is the data that Numerai uses to evaluate your model.
-tournament = pd.read_csv('~/numerai_datasets/numerai_tournament_data.csv', header=0)
+tournament = pd.read_csv('./tmp/numerai_datasets/numerai_tournament_data.csv', header=0)
 
 # The tournament data contains validation data, test data and live data.
 # Validation is used to test your model locally so we separate that.
@@ -112,7 +122,7 @@ results_df = pd.DataFrame(data={'probability_bernie': results})
 joined = pd.DataFrame(t_id).join(results_df)
 
 filename = 'predictions.csv'
-path = '~/numerai_predictions/' + filename
+path = './tmp/numerai_predictions/' + filename
 print()
 print("Writing predictions to " + path.strip())
 # # Save the predictions out to a CSV file
