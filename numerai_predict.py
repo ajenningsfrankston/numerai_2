@@ -1,11 +1,10 @@
 #
 # Select from a set of classifiers the most consistent, then bag.
-#
 
-import numpy as np
-import pandas as pd
 
 from make_prediction import make_prediction
+
+import pandas as pd
 
 from numerapi import NumerAPI
 import zipfile
@@ -24,6 +23,7 @@ for comp in competitions: comp_names.append(comp["name"])
 print(comp_names)
 
 print("# Loading data...")
+
 # The training data is used to train your model how to predict the targets.
 train = pd.read_csv('./tmp/numerai_datasets/numerai_training_data.csv', header=0)
 # The tournament data is the data that Numerai uses to evaluate your model.
@@ -33,4 +33,10 @@ tournament = pd.read_csv('./tmp/numerai_datasets/numerai_tournament_data.csv', h
 # Validation is used to test your model locally so we separate that.
 
 validation = tournament[tournament['data_type'] == 'validation']
+
+# Construct prediction for each competition
+
+
+for i in range(len(comp_names)):
+    make_prediction(train,validation,tournament,i,comp_names)
 
