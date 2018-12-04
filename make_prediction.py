@@ -1,4 +1,7 @@
 
+import numpy as np
+import pandas as pd
+
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.wrappers.scikit_learn import KerasClassifier
@@ -9,24 +12,31 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import BaggingClassifier
 
 
-def make_prediction(train,validation,tournament,comp_name):
+def make_prediction(train,validation,tournament,comp_no,comp_names):
 
-    # There are a number of targets in the training data which you can choose to model using the features.
-    # We select each one in turn, train a model and make predictions.
+    # Construct a prediction for a particular competition
     #
-    train_bernie = train.drop([
-        'id', 'era', 'data_type',
-        'target_charles', 'target_elizabeth',
-        'target_jordan', 'target_ken'], axis=1)
+
+    discard_core = ['id', 'era', 'data_type']
+
+    comp_name = comp_names[comp_no]
+
+    target_list = list()
+    for name in comp_names:
+        if name != comp_name:
+            target_list.append('target_' + name)
+
+    discard_list = target_list + discard_core
+
+    train_comp = train.drop(*discard_list, axis=1)
 
     # Transform the loaded CSV data into numpy arrays
 
-    features = [f for f in list(train_bernie) if "feature" in f]
-    X = train_bernie[features]
-    Y = train_bernie['target_bernie']
+    features = [f for f in list(train_comp) if "feature" in f]
+    X = train_comp[features]
+    Y = train_comp['target_bernie']
     x_prediction = validation[features]
     ids = tournament['id']
-
 
     rdc = PRidgeClassifier(alpha=1.0)
     lrc = LogisticRegression()
@@ -38,7 +48,6 @@ def make_prediction(train,validation,tournament,comp_name):
 
     batch_size = 256
     epochs = 16
-
 
     def create_model(neurons=20, dropout=0.1):
         model = Sequential()
@@ -66,28 +75,24 @@ def make_prediction(train,validation,tournament,comp_name):
 
     most_consistent_model = model_list[consistencies.index(max(consistencies))]
 
-
     # bagging classifier
 
     model = BaggingClassifier(base_estimator=most_consistent_model, n_estimators=10)
     model.fit(X.values,Y.values)
-
 
     # check consistency
     final_model = model
     consistency = check_consistency(final_model, validation, train)
     print("Consistency: {}".format(consistency))
 
-
     x_prediction = tournament[features]
     t_id = tournament["id"]
     raw_predict = final_model.predict_proba(x_prediction.values)
     y_prediction = raw_predict[:,1]
     results = np.reshape(y_prediction, -1)
-    results_df = pd.DataFrame(data={'probability_bernie': results})
+    results_df = pd.DataFrame(data={'probability_'+comp_name: results})
     joined = pd.DataFrame(t_id).join(results_df)
-
-    filename = 'predictions.csv'
+    filename = comp_name +'_predictions.csv'
     path = './tmp/numerai_predictions/' + filename
     print()
     print("Writing predictions to " + path.strip())
