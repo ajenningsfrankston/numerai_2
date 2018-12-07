@@ -10,7 +10,6 @@ from numerapi import NumerAPI
 import zipfile
 
 
-
 data_archive = NumerAPI().download_current_dataset(dest_path='./tmp',unzip=False)
 
 with zipfile.ZipFile(data_archive,"r") as zip_ref:
@@ -38,5 +37,7 @@ validation = tournament[tournament['data_type'] == 'validation']
 
 
 for i in range(len(comp_names)):
-    make_prediction(train,validation,tournament,i,comp_names)
+    pred_file = make_prediction(train,validation,tournament,i, comp_names)
+    #
+    # push prediction to numer.ai
 

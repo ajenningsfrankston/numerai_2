@@ -11,6 +11,8 @@ from pridge_classifier import PRidgeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import BaggingClassifier
 
+from numerapi import NumerAPI
+
 
 def make_prediction(train,validation,tournament,comp_no,comp_names):
 
@@ -34,7 +36,7 @@ def make_prediction(train,validation,tournament,comp_no,comp_names):
 
     features = [f for f in list(train_comp) if "feature" in f]
     X = train_comp[features]
-    Y = train_comp['target_bernie']
+    Y = train_comp['target_' + comp_name]
     x_prediction = validation[features]
     ids = tournament['id']
 
@@ -92,9 +94,11 @@ def make_prediction(train,validation,tournament,comp_no,comp_names):
     results = np.reshape(y_prediction, -1)
     results_df = pd.DataFrame(data={'probability_'+comp_name: results})
     joined = pd.DataFrame(t_id).join(results_df)
-    filename = comp_name +'_predictions.csv'
+    filename = comp_name + '_predictions.csv'
     path = './tmp/numerai_predictions/' + filename
     print()
     print("Writing predictions to " + path.strip())
     # # Save the predictions out to a CSV file
     joined.to_csv(path, float_format='%.5f', index=False)
+
+    return path
