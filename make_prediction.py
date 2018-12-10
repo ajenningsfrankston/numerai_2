@@ -30,7 +30,7 @@ def make_prediction(train,validation,tournament,comp_no,comp_names):
 
     discard_list = target_list + discard_core
 
-    train_comp = train.drop(*discard_list, axis=1)
+    train_comp = train.drop(discard_list,axis=1)
 
     # Transform the loaded CSV data into numpy arrays
 

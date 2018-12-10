@@ -19,8 +19,6 @@ competitions = NumerAPI().get_tournaments()
 comp_names = list()
 for comp in competitions: comp_names.append(comp["name"])
 
-print(comp_names)
-
 print("# Loading data...")
 
 # The training data is used to train your model how to predict the targets.
