@@ -14,7 +14,7 @@ from sklearn.ensemble import BaggingClassifier
 from numerapi import NumerAPI
 
 
-def make_prediction(train,validation,tournament,comp_no,comp_names):
+def make_prediction(train,validation,tournament,comp_no,comp_names,destination_dir):
 
     # Construct a prediction for a particular competition
     #
@@ -22,6 +22,9 @@ def make_prediction(train,validation,tournament,comp_no,comp_names):
     discard_core = ['id', 'era', 'data_type']
 
     comp_name = comp_names[comp_no]
+
+    print ("---------------------------")
+    print("training ",comp_name," model ")
 
     target_list = list()
     for name in comp_names:
@@ -95,7 +98,7 @@ def make_prediction(train,validation,tournament,comp_no,comp_names):
     results_df = pd.DataFrame(data={'probability_'+comp_name: results})
     joined = pd.DataFrame(t_id).join(results_df)
     filename = comp_name + '_predictions.csv'
-    path = './tmp/numerai_predictions/' + filename
+    path = destination_dir + filename
     print()
     print("Writing predictions to " + path.strip())
     # # Save the predictions out to a CSV file
