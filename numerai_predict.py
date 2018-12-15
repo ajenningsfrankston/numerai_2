@@ -9,6 +9,7 @@ import pandas as pd
 from numerapi import NumerAPI
 import zipfile
 
+upload = False
 
 data_archive = NumerAPI().download_current_dataset(dest_path='../../tmp',unzip=False)
 
@@ -40,7 +41,8 @@ api = NumerAPI(public_id=id,secret_key=key)
 
 
 for i in range(len(comp_names)):
-    pred_file = make_prediction(train,validation,tournament,i, comp_names,"../../numerai_predictions")
+    pred_path = make_prediction(train,validation,tournament,i, comp_names,"../../numerai_predictions/")
     #
-    api.upload_predictions(pred_file,i+1)
+    if upload:
+        api.upload_predictions(pred_path,i+1)
 
