@@ -9,12 +9,12 @@ import pandas as pd
 from numerapi import NumerAPI
 import zipfile
 
-upload = False
+upload = True
 
 data_archive = NumerAPI().download_current_dataset(dest_path='../../tmp',unzip=False)
 
 with zipfile.ZipFile(data_archive,"r") as zip_ref:
-   zip_ref.extractall("../../numerai_datasets")
+    zip_ref.extractall("../../numerai_datasets")
 
 competitions = NumerAPI().get_tournaments()
 comp_names = list()
