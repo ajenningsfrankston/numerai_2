@@ -1,5 +1,8 @@
 from numerapi import NumerAPI
 import pickle
+import os
+
+
 
 id = "OML65REYFDPC5O7N22XCRP44BG2M74XH"
 key = "YSTL455VERL7WZ4D7OQ6XEYEQN2MRCCICBMILNFP3DUZC4MSAS2WSH2MV7ED6WB3"
@@ -13,5 +16,7 @@ with open(plist_filename,'rb') as fp:
 
 i = 1
 for path in path_list :
+    fname = os.path.basename(path)
+    print('uploading '+ fname)
     api.upload_predictions(path,i)
     i = i+1
