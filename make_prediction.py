@@ -40,8 +40,7 @@ def make_prediction(train,validation,tournament,comp_no,comp_names,destination_d
     features = [f for f in list(train_comp) if "feature" in f]
     X = train_comp[features]
     Y = train_comp['target_' + comp_name]
-    x_prediction = validation[features]
-    ids = tournament['id']
+
 
     rdc = PRidgeClassifier(alpha=1.0)
     lrc = LogisticRegression()
