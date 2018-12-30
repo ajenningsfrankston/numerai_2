@@ -41,9 +41,8 @@ def make_prediction(train,validation,tournament,comp_no,comp_names,destination_d
     X = train_comp[features]
     Y = train_comp['target_' + comp_name]
 
-
     rdc = PRidgeClassifier(alpha=1.0)
-    lrc = LogisticRegression()
+    lrc = LogisticRegression(solver='lbfgs',max_iter=1000)
 
     rdc.fit(X.values,Y.values)
     lrc.fit(X.values,Y.values)
