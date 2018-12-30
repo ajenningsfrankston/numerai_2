@@ -34,11 +34,6 @@ validation = tournament[tournament['data_type'] == 'validation']
 
 # Construct prediction for each competition
 
-id = "OML65REYFDPC5O7N22XCRP44BG2M74XH"
-key = "YSTL455VERL7WZ4D7OQ6XEYEQN2MRCCICBMILNFP3DUZC4MSAS2WSH2MV7ED6WB3"
-
-api = NumerAPI(public_id=id,secret_key=key)
-
 prediction_path_list = list()
 
 for i in range(len(comp_names)):
