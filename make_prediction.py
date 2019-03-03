@@ -11,7 +11,6 @@ from pridge_classifier import PRidgeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import BaggingClassifier
 
-from numerapi import NumerAPI
 
 
 def make_prediction(train,validation,tournament,comp_no,comp_names,destination_dir):
@@ -66,7 +65,7 @@ def make_prediction(train,validation,tournament,comp_no,comp_names,destination_d
         model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_crossentropy', 'accuracy'])
         return model
 
-    keras_model = KerasClassifier(build_fn=create_model, epochs=epochs, batch_size=batch_size, verbose=1)
+    keras_model = KerasClassifier(build_fn=create_model, epochs=epochs, batch_size=batch_size, verbose=2)
 
     keras_model.fit(X.values,Y.values)
 

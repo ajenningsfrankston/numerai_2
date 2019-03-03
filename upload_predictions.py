@@ -9,20 +9,12 @@ key = "YSTL455VERL7WZ4D7OQ6XEYEQN2MRCCICBMILNFP3DUZC4MSAS2WSH2MV7ED6WB3"
 
 api = NumerAPI(public_id=id,secret_key=key)
 
-plist_filename = "../../numerai_predictions/" + "prediction_list"
-
-with open(plist_filename,'rb') as fp:
-    path_list = pickle.load(fp)
+base_path = "../../numerai_predictions/"
 
 competitions = api.get_tournaments()
-for x in competitions:
-    print(x)
-    print(x['name'])
+for comp in competitions:
+    name = comp['name']
+    path = base_path + name + ".csv"
+    print('uploading ' + name)
+    api.upload_predictions(path,comp['tournament'])
 
-
-i = 1
-for path in path_list :
-    fname = os.path.basename(path)
-    print('uploading '+ fname)
-    api.upload_predictions(path,i)
-    i = i+1

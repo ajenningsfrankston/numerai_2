@@ -38,7 +38,6 @@ prediction_path_list = list()
 
 for i in range(len(comp_names)):
     pred_path = make_prediction(train, validation, tournament, i, comp_names, "../../numerai_predictions/")
-    #
     prediction_path_list.append(pred_path)
 
 plist_filename = "../../numerai_predictions/" + "prediction_list"
