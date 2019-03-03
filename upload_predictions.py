@@ -14,6 +14,12 @@ plist_filename = "../../numerai_predictions/" + "prediction_list"
 with open(plist_filename,'rb') as fp:
     path_list = pickle.load(fp)
 
+competitions = api.get_tournaments()
+for x in competitions:
+    print(x)
+    print(x['name'])
+
+
 i = 1
 for path in path_list :
     fname = os.path.basename(path)
