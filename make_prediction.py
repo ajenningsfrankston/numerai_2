@@ -101,4 +101,3 @@ def make_prediction(train,validation,tournament,comp_no,comp_names,destination_d
     # # Save the predictions out to a CSV file
     joined.to_csv(path, float_format='%.5f', index=False)
 
-    return path
