@@ -37,11 +37,6 @@ validation = tournament[tournament['data_type'] == 'validation']
 prediction_path_list = list()
 
 for i in range(len(comp_names)):
-    pred_path = make_prediction(train, validation, tournament, i, comp_names, "../../numerai_predictions/")
-    prediction_path_list.append(pred_path)
+    make_prediction(train, validation, tournament, i, comp_names, "../../numerai_predictions/")
 
-plist_filename = "../../numerai_predictions/" + "prediction_list"
-
-with open(plist_filename,'wb') as fp:
-    pickle.dump(prediction_path_list,fp)
 
