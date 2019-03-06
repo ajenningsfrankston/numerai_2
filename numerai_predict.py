@@ -34,7 +34,6 @@ validation = tournament[tournament['data_type'] == 'validation']
 
 # Construct prediction for each competition
 
-prediction_path_list = list()
 
 for i in range(len(comp_names)):
     make_prediction(train, validation, tournament, i, comp_names, "../../numerai_predictions/")
