@@ -36,6 +36,7 @@ validation = tournament[tournament['data_type'] == 'validation']
 
 
 for i in range(len(comp_names)):
-    make_prediction(train, validation, tournament, i, comp_names, "../../numerai_predictions/")
+    if (comp_names[i] != 'jordan' and comp_names[i] != 'elizabeth'):
+        make_prediction(train, validation, tournament, i, comp_names, "../../numerai_predictions/")
 
 

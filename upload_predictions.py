@@ -14,7 +14,8 @@ base_path = "../../numerai_predictions/"
 competitions = api.get_tournaments()
 for comp in competitions:
     name = comp['name']
-    path = base_path + name + "_predictions.csv"
-    print('uploading ' + name)
-    api.upload_predictions(path,comp['tournament'])
+    if (name != 'jordan' and name != 'elizabeth'):
+        path = base_path + name + "_predictions.csv"
+        print('uploading ' + name)
+        api.upload_predictions(path,comp['tournament'])
 
