@@ -1,6 +1,7 @@
 
 import numpy as np
 import pandas as pd
+import os
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
@@ -95,6 +96,12 @@ def make_prediction(train,validation,tournament,comp_no,comp_names,destination_d
     results_df = pd.DataFrame(data={'probability_'+comp_name: results})
     joined = pd.DataFrame(t_id).join(results_df)
     filename = comp_name + '_predictions.csv'
+
+# create destination directory if it does not exist
+#
+    if not os.path.exists(destination_dir):
+        os.makedirs(destination_dir)
+
     path = destination_dir + filename
     print()
     print("Writing predictions to " + path.strip())
